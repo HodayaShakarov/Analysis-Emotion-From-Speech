@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <!--    <script src="/js/login.js"></script>-->
+    <!--    <script src="/js/myfunctions.js"></script>-->
+    <title>Exercise 4 - Internet Programming Course template</title>
+
+    <style>
+        body {
+            background-image: url('/media/bg.PNG');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: 100% 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+
+<div class="row container-fluid">
+    <form onsubmit="loginSubmit(event, this)" method="post" action="/login/loginSubmit/" id="my2">
+        {% csrf_token %}
+
+        <div class="  card card-header mt-2 w-50">
+            <h1 class="mb-4">login</h1>
+            <div class=" col-lg-6 mb-3 ">
+                <label for="email" class="form-label">email</label>
+                <input size="10" type="email" class="form-control" name="email" id="email" required>
+                <label class="text-danger" id="emailError"> </label>
+            </div>
+
+            <div class="col-lg-6 mb-3">
+                <label for="text" class="form-label">password</label>
+                <input size="10" type="password" class="form-control" name="password" id="password" required>
+                <label class="text-danger" id="passwordError"> </label>
+            </div>
+            <div class="col-lg-3 mb-3">
+                <input type="submit" value="submit" class="btn btn-outline-primary mb-3" id="loginBtn">
+            </div>
+
+            <div class="col-lg-8 mb-3">
+                <h6 class="text-danger" id="login">{{ message2 }}</h6>
+                <h2 class="text-primary">{{ message4 }}</h2>
+            </div>
+
+            <div class="col-lg-8 mb-3">
+                <a href="/register"> <b>Don't have an account yet? click here to create an account</b></a>
+            </div>
+
+
+        </div>
+    </form>
+</div>
+
+<script>
+    function setErrorLabel(type, errorData) {
+        document.getElementById(type + "Error").innerHTML = errorData
+    }
+
+    function loginSubmit(e, form) {
+        e.preventDefault();
+
+        const formData = new FormData(form);
+
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function (e) {
+            if (this.readyState === 4) {
+                debugger;
+                let data = JSON.parse(e.target.responseText);
+                console.log("Server returned: ", JSON.parse(e.target.responseText));
+
+                if (data["context"]["userName"] != undefined) {
+                    sessionStorage.setItem("userName", data["context"]["userName"])
+                    window.location.href = data["url"]
+                }
+                else if (data["context"]["error"] != undefined) {
+                    let error = data["context"]["error"]
+                    setErrorLabel(error["type"], error["data"])
+                }
+            }
+        }
+        xhr.open("POST", form.action, true);
+        xhr.send(formData);
+    }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+        crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <style>
+        body {
+            background-image: url('/media/bg.PNG');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: 100% 100%;
+        }
+
+        .myButton {
+            position: fixed; /* or position: absolute; */
+            top: 12px;
+            right: 15px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        #myInput {
+            background-image: url('/css/searchicon.png');
+            background-position: 10px 12px;
+            background-repeat: no-repeat;
+            width: 100%;
+            font-size: 16px;
+            padding: 12px 20px 12px 40px;
+            border: 1px solid #ddd;
+            margin-bottom: 12px;
+        }
+
+        #myUL {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #myUL li a {
+            margin-top: -1px; /* Prevent double borders */
+            padding: 12px;
+            text-decoration: none;
+            font-size: 18px;
+            color: black;
+            display: block
+        }
+
+        #myUL li a:hover:not(.header) {
+            background-color: #eee;
+        }
+    </style>
+
+</head>
+<body>
+<div class="container">
+
+    <form id="back" action="{% url 'textToSign' %}" method="post">
+        {% csrf_token %}
+        <button class="myButton btn btn-success" type="submit" name='mybtn2' value={{ textToSign_path }}>Continue
+            translating ...
+        </button>
+    </form>
+    <br>
+    <h2>List of existing words in the video repository</h2><br><br>
+    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for word.." title="Type in a name">
+    <ul id="myUL">
+        <li><a href="#">a</a></li>
+        <li><a href="#">able</a></li>
+        <li><a href="#">about</a></li>
+        <li><a href="#">act</a></li>
+        <li><a href="#">add</a></li>
+        <li><a href="#">afraid</a></li>
+        <li><a href="#">after</a></li>
+        <li><a href="#">again</a></li>
+        <li><a href="#">against</a></li>
+        <li><a href="#">age</a></li>
+        <li><a href="#">air</a></li>
+        <li><a href="#">all</a></li>
+        <li><a href="#">also</a></li>
+        <li><a href="#">am</a></li>
+        <li><a href="#">and</a></li>
+        <li><a href="#">animal</a></li>
+        <li><a href="#">answer</a></li>
+        <li><a href="#">Any</a></li>
+        <li><a href="#">Ask</a></li>
+        <li><a href="#">Aunt</a></li>
+        <li><a href="#">Back</a></li>
+        <li><a href="#">Bad</a></li>
+        <li><a href="#">Ball</a></li>
+        <li><a href="#">Beautiful</a></li>
+        <li><a href="#">Because</a></li>
+        <li><a href="#">Been</a></li>
+        <li><a href="#">before</a></li>
+        <li><a href="#">behind</a></li>
+        <li><a href="#">Between</a></li>
+        <li><a href="#">Big</a></li>
+        <li><a href="#">Blue</a></li>
+        <li><a href="#">Board</a></li>
+        <li><a href="#">Boat</a></li>
+        <li><a href="#">Book</a></li>
+        <li><a href="#">Box</a></li>
+        <li><a href="#">Boy</a></li>
+        <li><a href="#">Brother</a></li>
+        <li><a href="#">Build</a></li>
+        <li><a href="#">Busy</a></li>
+        <li><a href="#">But</a></li>
+        <li><a href="#">Buy</a></li>
+        <li><a href="#">By</a></li>
+        <li><a href="#">Call</a></li>
+        <li><a href="#">Came</a></li>
+        <li><a href="#">Can</a></li>
+        <li><a href="#">Cause</a></li>
+        <li><a href="#">Certain</a></li>
+        <li><a href="#">Change</a></li>
+        <li><a href="#">Check</a></li>
+        <li><a href="#">Children</a></li>
+        <li><a href="#">City</a></li>
+        <li><a href="#">Clear</a></li>
+        <li><a href="#">Close</a></li>
+        <li><a href="#">Cold</a></li>
+        <li><a href="#">Come</a></li>
+        <li><a href="#">Common</a></li>
+        <li><a href="#">Computer</a></li>
+        <li><a href="#">Corona</a></li>
+        <li><a href="#">Correct</a></li>
+        <li><a href="#">Country</a></li>
+        <li><a href="#">Course</a></li>
+        <li><a href="#">Cover</a></li>
+        <li><a href="#">Cream</a></li>
+        <li><a href="#">Cross</a></li>
+        <li><a href="#">Cry</a></li>
+        <li><a href="#">Dance</a></li>
+        <li><a href="#">Dark</a></li>
+        <li><a href="#">Day</a></li>
+        <li><a href="#">Deaf</a></li>
+        <li><a href="#">Decide</a></li>
+        <li><a href="#">Deep</a></li>
+        <li><a href="#">Develop</a></li>
+        <li><a href="#">Do</a></li>
+        <li><a href="#">Dog</a></li>
+        <li><a href="#">Done</a></li>
+        <li><a href="#">Door</a></li>
+        <li><a href="#">Down</a></li>
+        <li><a href="#">Draw</a></li>
+        <li><a href="#">Dress</a></li>
+        <li><a href="#">Drive</a></li>
+        <li><a href="#">Dry</a></li>
+        <li><a href="#">Each</a></li>
+        <li><a href="#">Easy</a></li>
+        <li><a href="#">Eat</a></li>
+        <li><a href="#">Empty</a></li>
+        <li><a href="#">End</a></li>
+        <li><a href="#">Even</a></li>
+        <li><a href="#">Excited</a></li>
+        <li><a href="#">Eye</a></li>
+        <li><a href="#">Fact</a></li>
+        <li><a href="#">Fall</a></li>
+        <li><a href="#">Far</a></li>
+        <li><a href="#">Fast</a></li>
+        <li><a href="#">Father</a></li>
+        <li><a href="#">Few</a></li>
+        <li><a href="#">Field</a></li>
+        <li><a href="#">Figure</a></li>
+        <li><a href="#">Final</a></li>
+        <li><a href="#">Find</a></li>
+        <li><a href="#">Fine</a></li>
+        <li><a href="#">First</a></li>
+        <li><a href="#">Fly</a></li>
+        <li><a href="#">Follow</a></li>
+        <li><a href="#">Food</a></li>
+        <li><a href="#">Foot</a></li>
+        <li><a href="#">For</a></li>
+        <li><a href="#">Force</a></li>
+        <li><a href="#">Found</a></li>
+        <li><a href="#">Four</a></li>
+        <li><a href="#">Free</a></li>
+        <li><a href="#">From</a></li>
+        <li><a href="#">Front</a></li>
+        <li><a href="#">full</a></li>
+        <li><a href="#">game</a></li>
+        <li><a href="#">Garden</a></li>
+        <li><a href="#">Get</a></li>
+        <li><a href="#">Girl</a></li>
+        <li><a href="#">Give</a></li>
+        <li><a href="#">Go</a></li>
+        <li><a href="#">Gold</a></li>
+        <li><a href="#">Good</a></li>
+        <li><a href="#">Government</a></li>
+        <li><a href="#">Grandad</a></li>
+        <li><a href="#">Grandma</a></li>
+        <li><a href="#">Great</a></li>
+        <li><a href="#">Green</a></li>
+        <li><a href="#">Group</a></li>
+        <li><a href="#">Grow</a></li>
+        <li><a href="#">Hamburger</a></li>
+        <li><a href="#">Hand</a></li>
+        <li><a href="#">Happy</a></li>
+        <li><a href="#">Hard</a></li>
+        <li><a href="#">hate</a></li>
+        <li><a href="#">have</a></li>
+        <li><a href="#">He</a></li>
+        <li><a href="#">Head</a></li>
+        <li><a href="#">hello</a></li>
+        <li><a href="#">help</a></li>
+        <li><a href="#">Her</a></li>
+        <li><a href="#">Here</a></li>
+        <li><a href="#">Hi</a></li>
+        <li><a href="#">High</a></li>
+        <li><a href="#">Him</a></li>
+        <li><a href="#">His</a></li>
+        <li><a href="#">Holiday</a></li>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Hot</a></li>
+        <li><a href="#">Hour</a></li>
+        <li><a href="#">House</a></li>
+        <li><a href="#">How</a></li>
+        <li><a href="#">I</a></li>
+        <li><a href="#">Ice</a></li>
+        <li><a href="#">If</a></li>
+        <li><a href="#">In</a></li>
+        <li><a href="#">It</a></li>
+        <li><a href="#">Just</a></li>
+        <li><a href="#">Keep</a></li>
+        <li><a href="#">Kind</a></li>
+        <li><a href="#">king</a></li>
+        <li><a href="#">know</a></li>
+        <li><a href="#">lamp</a></li>
+        <li><a href="#">land</a></li>
+        <li><a href="#">large</a></li>
+        <li><a href="#">last</a></li>
+        <li><a href="#">late</a></li>
+        <li><a href="#">later</a></li>
+        <li><a href="#">laugh</a></li>
+        <li><a href="#">leas</a></li>
+        <li><a href="#">learn</a></li>
+        <li><a href="#">left</a></li>
+        <li><a href="#">let</a></li>
+        <li><a href="#">life</a></li>
+        <li><a href="#">light</a></li>
+        <li><a href="#">like</a></li>
+        <li><a href="#">line</a></li>
+        <li><a href="#">little</a></li>
+        <li><a href="#">live</a></li>
+        <li><a href="#">long</a></li>
+        <li><a href="#">look</a></li>
+        <li><a href="#">love</a></li>
+        <li><a href="#">low</a></li>
+        <li><a href="#">machine</a></li>
+        <li><a href="#">make</a></li>
+        <li><a href="#">man</a></li>
+        <li><a href="#">many</a></li>
+        <li><a href="#">map</a></li>
+        <li><a href="#">mask</a></li>
+        <li><a href="#">may</a></li>
+        <li><a href="#">me</a></li>
+        <li><a href="#">men</a></li>
+        <li><a href="#">might</a></li>
+        <li><a href="#">mind</a></li>
+        <li><a href="#">minute</a></li>
+        <li><a href="#">money</a></li>
+        <li><a href="#">moon</a></li>
+        <li><a href="#">more</a></li>
+        <li><a href="#">most</a></li>
+        <li><a href="#">mother</a></li>
+        <li><a href="#">move</a></li>
+        <li><a href="#">much</a></li>
+        <li><a href="#">must</a></li>
+        <li><a href="#">my</a></li>
+        <li><a href="#">near</a></li>
+        <li><a href="#">need</a></li>
+        <li><a href="#">never</a></li>
+        <li><a href="#">new</a></li>
+        <li><a href="#">nice</a></li>
+        <li><a href="#">night</a></li>
+        <li><a href="#">no</a></li>
+        <li><a href="#">not</a></li>
+        <li><a href="#">note</a></li>
+        <li><a href="#">nothing</a></li>
+        <li><a href="#">notice</a></li>
+        <li><a href="#">noun</a></li>
+        <li><a href="#">now</a></li>
+        <li><a href="#">number</a></li>
+        <li><a href="#">objet</a></li>
+        <li><a href="#">off</a></li>
+        <li><a href="#">old</a></li>
+        <li><a href="#">on</a></li>
+        <li><a href="#">one</a></li>
+        <li><a href="#">only</a></li>
+        <li><a href="#">open</a></li>
+        <li><a href="#">or</a></li>
+        <li><a href="#">other</a></li>
+        <li><a href="#">our</a></li>
+        <li><a href="#">out</a></li>
+        <li><a href="#">page</a></li>
+        <li><a href="#">part</a></li>
+        <li><a href="#">pattern</a></li>
+        <li><a href="#">people</a></li>
+        <li><a href="#">person</a></li>
+        <li><a href="#">picture</a></li>
+        <li><a href="#">pizza</a></li>
+        <li><a href="#">place</a></li>
+        <li><a href="#">plan</a></li>
+        <li><a href="#">plane</a></li>
+        <li><a href="#">plant</a></li>
+        <li><a href="#">play</a></li>
+        <li><a href="#">point</a></li>
+        <li><a href="#">possible</a></li>
+        <li><a href="#">power</a></li>
+        <li><a href="#">press</a></li>
+        <li><a href="#">produce</a></li>
+        <li><a href="#">pull</a></li>
+        <li><a href="#">put</a></li>
+        <li><a href="#">queen</a></li>
+        <li><a href="#">quick</a></li>
+        <li><a href="#">read</a></li>
+        <li><a href="#">real</a></li>
+        <li><a href="#">record</a></li>
+        <li><a href="#">rest</a></li>
+        <li><a href="#">right</a></li>
+        <li><a href="#">road</a></li>
+        <li><a href="#">round</a></li>
+        <li><a href="#">sea</a></li>
+        <li><a href="#">shout</a></li>
+        <li><a href="#">sister</a></li>
+        <li><a href="#">smart</a></li>
+        <li><a href="#">so</a></li>
+        <li><a href="#">software</a></li>
+        <li><a href="#">study</a></li>
+        <li><a href="#">they</a></li>
+        <li><a href="#">think</a></li>
+        <li><a href="#">tired</a></li>
+        <li><a href="#">to</a></li>
+        <li><a href="#">travel</a></li>
+        <li><a href="#">uncle</a></li>
+        <li><a href="#">want</a></li>
+        <li><a href="#">we</a></li>
+        <li><a href="#">wear</a></li>
+        <li><a href="#">what</a></li>
+        <li><a href="#">when</a></li>
+        <li><a href="#">where</a></li>
+        <li><a href="#">which</a></li>
+        <li><a href="#">who</a></li>
+        <li><a href="#">why</a></li>
+        <li><a href="#">word</a></li>
+        <li><a href="#">you</a></li>
+    </ul>
+
+    <script>
+        function myFunction() {
+            var input, filter, ul, li, a, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            ul = document.getElementById("myUL");
+            li = ul.getElementsByTagName("li");
+            for (i = 0; i < li.length; i++) {
+                a = li[i].getElementsByTagName("a")[0];
+                txtValue = a.textContent || a.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    li[i].style.display = "";
+                } else {
+                    li[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.0.2/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+</body>
+</html>

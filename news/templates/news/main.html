@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        body {
+            background-image: url('/media/bg.PNG');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: 100% 100%;
+        }
+
+        button1 {
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+
+    </style>
+</head>
+<body><br>
+<h1 id="welcomeUser" style="text-align: center"></h1>
+<div class="container-fluid">
+    <form id="loginForm" onsubmit="loginOrOutSubmit(event, this)" action="{% url 'login' %}" method="post">
+        {% csrf_token %}
+        <button id="loginOrOut" class="myButton btn btn-success" type="submit" name='mybtn2' value={{ login_path }}>
+            LOGIN
+        </button>
+    </form>
+    <br>
+    <div class="row">
+        <div class="col-md-1 col-sm-5"></div>
+        <div class="col-md-2 col-sm-5 text-center">
+            <div class="card shadow-lg rounded p-1">
+                <div class="container"
+                     style="background-image: url('/media/textToSign.PNG'); background-size: 100% 100%;">
+                    <br><br><br><br><br>
+                    <form action="{% url 'textToSign' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" name='mybtn2' class="btn btn-success" value={{ textToSign_path }}>START
+                        </button>
+                    </form>
+                    <br><br><br><br><br>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1 col-sm-5 "></div>
+        <div class="col-md-2 col-sm-5 text-center">
+            <div class="card shadow-lg rounded p-1">
+                <div class="container"
+                     style="background-image: url('/media/sign_text.PNG'); background-size: 100% 100%;">
+                    <br><br><br><br><br>
+                    <form action="{% url 'signToText2' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" name='mybtn2' class="btn btn-success"
+                                value={{ signToText2_path }}>START
+                        </button>
+                    </form>
+                    <br><br><br><br><br>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-5"></div>
+        <div class="col-md-1 col-sm-5"></div>
+        <div class="col-md-2 col-sm-5 my-3 text-center">
+            <div class="card shadow-lg rounded p-1">
+                <div class="container"
+                     style="background-image: url('/media/voice_to_sign.PNG'); background-size: 100% 100%;">
+                    <br><br><br><br><br>
+                    <form action="{% url 'voiceToSign' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" name='mybtn2' class="btn btn-success"
+                                value={{ voiceToSign_path }}>START
+                        </button>
+                    </form>
+                    <br><br><br><br><br>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1 col-sm-5"></div>
+        <div class="col-md-2 col-sm-5 my-3 text-center">
+            <div class="card shadow-lg rounded p-1">
+                <div class="container"
+                     style="background-image: url('/media/user_records.PNG'); background-size: 100% 100%;">
+                    <br><br><br><br><br>
+                    <form action="{% url 'recordsTable' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" name='mybtn2' class="btn btn-success">WATCH RECORDS
+                        </button>
+                    </form>
+                    <br><br><br><br><br>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    window.onload = function () {
+        if (sessionStorage.getItem("userName") != undefined) {
+            document.getElementById("welcomeUser").style.visibility = "visible"
+            document.getElementById("welcomeUser").innerHTML = "Welcome" + " " + sessionStorage.getItem("userName")
+            document.getElementById("loginOrOut").innerHTML = "LOGOUT"
+            document.getElementById("loginForm").action = "{% url 'logout' %}"
+        } else {
+            document.getElementById("welcomeUser").style.display = "none"
+            document.getElementById("loginOrOut").innerHTML = "LOGIN"
+            document.getElementById("loginForm").action = "{% url 'login' %}"
+        }
+    }
+
+    function loginOrOutSubmit(e, form) {
+        debugger;
+        if (document.getElementById("loginOrOut").textContent == "LOGOUT") {
+            e.preventDefault();
+
+            const formData = new FormData(form);
+
+            var xhr = new XMLHttpRequest();
+            xhr.onload = function (e) {
+                if (this.readyState === 4) {
+                    debugger;
+                    sessionStorage.removeItem("userName")
+                    window.onload()
+                }
+            }
+            xhr.open("GET", form.action, true);
+            xhr.send();
+        }
+    }
+</script>
+
+<script
+        src="http://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.0.2/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</body>
+</html>
+

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <style>
+        body {
+            background-image: url('/media/bg.PNG');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: 100% 100%;
+        }
+
+        .myButton {
+            position: fixed; /* or position: absolute; */
+            top: 12px;
+            right: 15px;
+        }
+
+        .myButton1 {
+            position: fixed; /* or position: absolute; */
+            top: 12px;
+            right: 80px;
+        }
+
+        .myButton2 {
+            background: none !important;
+            border: none;
+            padding: 0 !important;
+            /*optional*/
+            font-family: arial, sans-serif;
+            /*input has OS specific font-family*/
+            color: #069;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    </style>
+
+
+</head>
+<body>
+<div class="container">
+    <form id="back" action="{% url 'retMain' %}" method="post">
+        {% csrf_token %}
+        <button class="myButton btn btn-success" type="submit" name='mybtn2' value={{ retMain_path }}>Back</button>
+    </form>
+    <br><br><br>
+
+    <h3>Hi,
+        Please enter the sentence you want to translate into sign language</h3>
+    <br>
+    <form action="{% url 'translateToSign' %}" method="post">
+        {% csrf_token %}
+        <input id="123" type="text" name="text">
+        <button type="submit" name='mybtn2' class="btn btn-success" value={{ translateToSign_path }}>Translate</button>
+    </form>
+    <form action="{% url 'wordsList' %}" method="post">
+        {% csrf_token %}
+        <button type="submit" name='mybtn2' class="btn btn-success" value={{ wordsList_path }}>list of words</button>
+    </form>
+    <br><br>
+    <h5>Common sentences that can be translated:</h5>
+    <input class="myButton2" id="love" value="i love you" type="button"><br>
+    <input class="myButton2" id="not" value="not now" type="button"><br>
+    <input class="myButton2" id="call" value="call me" type="button"><br>
+    <input class="myButton2" id="good" value="have a good day" type="button"><br>
+    <input class="myButton2" id="night" value="good night" type="button"><br>
+    <input class="myButton2" id="holiday" value="have a great holiday" type="button"><br>
+    <input class="myButton2" id="beautiful" value="you look beautiful" type="button"><br>
+    <input class="myButton2" id="help" value="help me" type="button"><br>
+
+</div>
+<script
+        src="http://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</body>
+<script>
+    document.getElementById("help").addEventListener("click", function () {
+        document.getElementById("123").value = document.getElementById("help").value
+    });
+    document.getElementById("beautiful").addEventListener("click", function () {
+        document.getElementById("123").value = document.getElementById("beautiful").value
+    });
+    document.getElementById("holiday").addEventListener("click", function () {
+        document.getElementById("123").value = document.getElementById("holiday").value
+    });
+    document.getElementById("love").addEventListener("click", function () {
+        document.getElementById("123").value = document.getElementById("love").value
+    });
+    document.getElementById("not").addEventListener("click", function () {
+        document.getElementById("123").value = document.getElementById("not").value
+    });
+    document.getElementById("call").addEventListener("click", function () {
+        document.getElementById("123").value = document.getElementById("call").value
+    });
+    document.getElementById("good").addEventListener("click", function () {
+        document.getElementById("123").value = document.getElementById("good").value
+    });
+    document.getElementById("night").addEventListener("click", function () {
+        document.getElementById("123").value = document.getElementById("night").value
+    });
+</script>
+</html>

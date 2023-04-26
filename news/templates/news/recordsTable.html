@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <title>Records Table</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            background-image: url('/media/bg.PNG');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: 100% 100%;
+        }
+
+        .myButton {
+            position: fixed; /* or position: absolute; */
+            top: 12px;
+            right: 15px;
+        }
+    </style>
+</head>
+<body>
+{% csrf_token %}
+<div class="container">
+    <form id="back" action="{% url 'retMain' %}" method="post">
+        {% csrf_token %}
+        <button class="myButton btn btn-success" type="submit" name='mybtn2' value={{ retMain_path }}>Back</button>
+    </form>
+    <br><br>
+
+    <h1>My Records Table</h1>
+    <br>
+    <div style="overflow:scroll;height:300px;width:70%;overflow:auto">
+        <table class="table table-bordered table-striped mb-0">
+            <thead>
+            <tr>
+                <th scope="col">No.</th>
+                <th scope="col">Record</th>
+                <th scope="col">Created date</th>
+                <th scope="col">Translation</th>
+                <th scope="col">Emotion</th>
+                <th scope="col">Edit Emotion</th>
+            </tr>
+            </thead>
+            <tbody id="tBody">
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    function editClickListener(event, recId) {
+        debugger;
+        let rowId = event.currentTarget.name
+        if (event.currentTarget.value === "edit") {
+
+            let eIcon = document.createElement("i");
+            eIcon.className = "fa fa-check"
+
+            let btnEdit = document.getElementById("btnEdit" + rowId)
+            btnEdit.innerHTML = ''
+            btnEdit.appendChild(eIcon)
+            btnEdit.className = "btn btn-rounded"
+            btnEdit.name = rowId
+            btnEdit.value = "check"
+            btnEdit.addEventListener("click", editClickListener)
+
+            let tdEmotion = document.getElementById("emotion" + rowId)
+            tdEmotion.innerHTML = ''
+
+            let select = document.createElement("select")
+            let option0 = document.createElement("option")
+            let option1 = document.createElement("option")
+            let option2 = document.createElement("option")
+            let option3 = document.createElement("option")
+
+            select.className = "form-select"
+
+            option0.innerText = "Select Emotion"
+            option0.value = "Select Emotion"
+
+            option1.innerText = "happy"
+            option1.value = "happy"
+
+            option2.innerText = "sad"
+            option2.value = "sad"
+
+            option3.innerText = "angry"
+            option3.value = "angry"
+
+            select.appendChild(option0)
+            select.appendChild(option1)
+            select.appendChild(option2)
+            select.appendChild(option3)
+
+            select.addEventListener("change", function (e) {
+                if (e.target.value != option0.value) {
+                    sessionStorage.setItem("selectedEmotion" + rowId, e.target.value)
+                }
+            })
+
+            tdEmotion.appendChild(select)
+        } else if (event.currentTarget.value === "check" && sessionStorage.getItem("selectedEmotion" + rowId) !== " ") {
+            var form = new FormData()
+            form.append("emotion", sessionStorage.getItem("selectedEmotion" + rowId))
+            form.append("recordId", recId)
+            form.append('csrfmiddlewaretoken', $('input[name = "csrfmiddlewaretoken"]').attr('value'));
+
+            var xhr = new XMLHttpRequest();
+            xhr.onload = function (e) {
+                if (this.readyState === 4) {
+                    debugger;
+                    let eIcon = document.createElement("i");
+                    eIcon.className = "fa fa-edit"
+
+                    let btnEdit = document.getElementById("btnEdit" + rowId)
+                    btnEdit.innerHTML = ''
+                    btnEdit.appendChild(eIcon)
+                    btnEdit.className = "btn btn-rounded"
+                    btnEdit.value = "edit"
+
+                    let tdEmotion = document.getElementById("emotion" + rowId)
+                    tdEmotion.innerHTML = ''
+                    tdEmotion.innerText = sessionStorage.getItem("selectedEmotion" + rowId)
+                    //sessionStorage.removeItem("selectedEmotion" + rowId)
+                }
+            }
+            xhr.open("POST", {% url 'updateEmotion' %}, true);
+            xhr.send(form);
+
+
+        }
+    }
+
+    function formatDate(date) {
+        let dt = (new Date(date)).toString()
+        return dt.substring(0, dt.indexOf("GMT") - 1)
+    }
+
+    function insertDataToTable(data) {
+        let count = 1
+        let tBody = document.getElementById("tBody");
+        data.forEach(record => {
+            let recordId = record["recordId"]
+            let tdNo = document.createElement("td");
+            tdNo.innerText = (count).toString()
+
+            let tdRecord = document.createElement("td");
+            tdRecord.innerText = record["record"].toString()
+
+            let au = document.createElement('audio');
+            au.controls = true;
+            au.src = record["record"];
+
+            let tdCd = document.createElement("td");
+            tdCd.innerText = formatDate(record["createdDate"])
+
+            let tdTranslation = document.createElement("td");
+            tdTranslation.innerText = record["translation"].toString()
+
+            let tdEmotion = document.createElement("td");
+            tdEmotion.innerText = record["emotion"].toString()
+            tdEmotion.id = "emotion" + count.toString()
+
+            let tdEditEmotion = document.createElement("td");
+            tdEditEmotion.id = "editEmotion" + count.toString()
+
+            let eIcon = document.createElement("i");
+            eIcon.className = "fa fa-edit"
+
+            let btnEdit = document.createElement("button");
+            btnEdit.appendChild(eIcon)
+            btnEdit.className = "btn btn-rounded"
+            btnEdit.name = count.toString()
+            btnEdit.id = "btnEdit" + count.toString()
+            btnEdit.value = "edit"
+            btnEdit.addEventListener("click", function (e) {
+                editClickListener(e, recordId)
+            })
+            tdEditEmotion.appendChild(btnEdit)
+
+            let trObj = document.createElement("tr");
+            trObj.appendChild(tdNo)
+            trObj.appendChild(au)
+            trObj.appendChild(tdCd)
+            trObj.appendChild(tdTranslation)
+            trObj.appendChild(tdEmotion)
+            trObj.appendChild(tdEditEmotion)
+            tBody.appendChild(trObj)
+            count++
+        })
+    }
+
+    window.onload = function () {
+
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function (e) {
+            if (this.readyState === 4) {
+                let data = JSON.parse(e.target.responseText);
+                if (data["context"] != "empty") {
+                    insertDataToTable(data["context"])
+                } else {
+
+                }
+            }
+        }
+        xhr.open("GET", {% url 'recordsList' %}, true);
+        xhr.send();
+    }
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.0.2/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+
+    <style>
+        body {
+            background-image: url('/media/img_4.png');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: 100% 100%;
+            background-position: center;
+        }
+
+        .myButton {
+            position: fixed; /* or position: absolute; */
+            top: 12px;
+            right: 15px;
+        }
+    </style>
+</head>
+
+<body id="25">
+<br>
+<div class="row">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-1 col-sm-5"></div>
+            <div id="vi" class="col-md-3 col-sm-5">
+                <video class="moveimage" width="600" height="500" controls autoplay id="myVideo" onended="myFunction()">
+                    <source src="{{ arraysrc.pop }}" type="video/mp4">
+                </video>
+            </div>
+            <div class="col-md-2 col-sm-5"></div>
+            <div class="col-md-2 col-sm-5 my-5">
+                <div id="txtTranslation" class="h1"><span class="label label-success">{{ translation }}</span></div>
+            </div>
+            <div class="col-md-1 col-sm-5"></div>
+            <div id="divEmotion" class="col-md-2 col-sm-5 my-5">
+                <i id="iconEmotion"> </i>
+                <text id="txtEmotion" hidden>{{ emotion }}</text>
+            </div>
+        </div>
+    </div>
+
+    <form id="back" action="{% url 'textToSign' %}" method="post" style="display: none;">
+        {% csrf_token %}
+        <button id="btnBack" class="myButton btn btn-success" type="submit" name='mybtn2' value={{ textToSign_path }}>Continue
+            translating...
+        </button>
+    </form>
+</div>
+
+</body>
+<script>
+    let counter = 0;
+    let arr = [];
+    arr = "{{ arraysrc}}";
+    console.log(arr)
+    const re = /\s*(?:;|$)\s*/
+    const nameList = arr.split(re)
+    for (let i = 0; i < nameList.length; i++) {
+        nameList.splice(i, 1);
+    }
+    for (let i = 0; i < nameList.length; i++) {
+        nameList[i] = nameList[i].substring(0, nameList[i].length - 5);
+    }
+    nameList.reverse()
+    console.log(nameList);
+
+    function myFunction() {
+        var vid = document.getElementById("myVideo");
+        if (counter == nameList.length) {
+            {#var el = document.getElementById("25");#}
+            {#el.style.background = 'url(media/goodbye.PNG) no-repeat center center fixed' ;#}
+            document.body.style.background = "url('/media/goodbye.PNG')";
+            document.body.style.backgroundSize = "1540px 750px";
+            document.getElementById("vi").innerHTML = ""
+            document.getElementById("txtTranslation").innerHTML = ""
+            document.getElementById("divEmotion").innerHTML = ""
+            document.getElementById("back").style.display = 'block';
+
+        }
+        vid.src = nameList[counter] + "4";
+        counter++;
+        vid.play();
+    }
+</script>
+
+<script>
+    window.onload = function ()
+    {
+        debugger;
+        let emt = document.getElementById("txtEmotion").innerText
+        if(emt !== "")
+        {
+            document.getElementById("back").action = "{% url 'backToRecord' %}"
+            document.getElementById("btnBack").innerText = "Continue recording..."
+        }
+        if(emt === "happy")
+        {
+            document.getElementById("iconEmotion").className = "fa fa-smile-o"
+            document.getElementById("iconEmotion").style.color = "#f3da35"
+        }
+        if(emt === "sad")
+        {
+            document.getElementById("iconEmotion").className = "fa fa-frown-o"
+        }
+        if(emt === "angry")
+        {
+            document.getElementById("iconEmotion").className = "fas fa-angry"
+            document.getElementById("iconEmotion").style.color = "red"
+        }
+        document.getElementById("iconEmotion").style.fontSize = "8rem"
+    }
+</script>
+
+<script
+        src="http://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.0.2/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</body>
+</html>
